@@ -2,8 +2,7 @@ import pytest
 import pandas as pd
 import tempfile
 import os
-from sqlalchemy import create_engine
-from WIX_DE_Assignment.src.pipeline.loader import DataLoader
+from ..pipeline.loader import DataLoader
 
 
 @pytest.fixture
