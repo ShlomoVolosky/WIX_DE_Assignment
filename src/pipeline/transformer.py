@@ -6,10 +6,9 @@ class DataTransformer:
         self.logger = logging.getLogger(self.__class__.__name__)
 
     def clean_stock_data(self, df_stock):
-        # Example checks
         df_stock.dropna(subset=["date", "ticker", "o", "h", "l", "c"], inplace=True)
-        # Could also do outlier checks, duplicates, etc.
-        df_stock.drop_duplicates(subset=["date", "ticker"], keep="last", inplace=True)
+        # remove or comment out the next line:
+        # df_stock.drop_duplicates(subset=["date", "ticker"], keep="last", inplace=True)
         return df_stock
 
     def clean_fx_data(self, df_fx):
