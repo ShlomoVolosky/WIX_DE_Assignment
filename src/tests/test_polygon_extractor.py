@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from ..pipeline.polygon_extractor import PolygonExtractor
+from WIX_DE_Assignment.src.pipeline.polygon_extractor import PolygonExtractor
 
 @pytest.fixture
 def polygon_extractor():

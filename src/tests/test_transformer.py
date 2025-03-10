@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from ..pipeline.transformer import DataTransformer
+from WIX_DE_Assignment.src.pipeline.transformer import DataTransformer
 
 @pytest.fixture
 def transformer():

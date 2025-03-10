@@ -1,7 +1,7 @@
 import pytest
 import pandas as pd
 from requests.exceptions import RequestException
-from ..pipeline.frankfurter_extractor import FrankfurterExtractor
+from WIX_DE_Assignment.src.pipeline.frankfurter_extractor import FrankfurterExtractor
 
 @pytest.fixture
 def frank_extractor():
