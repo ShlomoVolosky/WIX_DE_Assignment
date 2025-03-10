@@ -1,1 +1,46 @@
- 
+version: '3.9'
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: finance_postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: finance_dw
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  airflow:
+    build:
+      context: ../airflow
+      dockerfile: Dockerfile
+    container_name: finance_airflow
+    depends_on:
+      - db
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    volumes:
+      - ../src:/opt/airflow/dags/src
+    command: >
+      bash -c "airflow db init &&
+               airflow users create --username admin --password admin --firstname Admin --lastname Admin --role Admin --email admin@example.com &&
+               airflow webserver -p 8080"
+    ports:
+      - "8080:8080"
+
+  pipeline:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    container_name: finance_pipeline
+    depends_on:
+      - db
+    environment:
+      - POLYGON_API_KEY=MY_KEY
+    command: ["/bin/bash", "-c", "python src/pipeline/main_pipeline.py"]
+
+volumes:
+  db_data:
+

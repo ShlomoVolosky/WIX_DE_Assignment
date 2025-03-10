@@ -1,4 +1,8 @@
 requests
 logging
-sqlite3
+pandas
 sqlalchemy
+streamlit
+apache-airflow
+pytest
+requests_mock

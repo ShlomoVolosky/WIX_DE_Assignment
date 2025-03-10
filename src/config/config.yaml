@@ -1,1 +1,20 @@
-  
+polygon:
+  api_key: "YOUR_POLYGON_API_KEY"
+  base_url: "https://api.polygon.io/v2"          #
+  default_ticker: "AAPL"
+
+frankfurter:
+  base_url: "https://api.frankfurter.dev/v1"
+  default_base: "USD"
+  default_symbols: ["EUR", "GBP"]
+
+database:
+  engine_url: "postgresql://user:password@db:5432/finance_dw"
+
+pipeline:
+  default_start_date: "2023-01-01"
+  default_end_date: "2023-12-31"
+
+airflow:
+  dag_id: "finance_pipeline_dag"
+
