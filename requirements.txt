@@ -8,3 +8,4 @@ pytest
 requests-mock
 boto3
 botocore
+pytest-mock
