@@ -1,14 +1,27 @@
 import requests
-import pandas as pd
 
-base_currency = "USD"
-start_date = "2023-01-01"
-end_date = "2023-01-31"
-symbols = ["EUR", "GBP"]
+def test_frankfurter_api():
+    url = "https://api.frankfurter.dev/v1/latest"
 
-url = f"https://api.frankfurter.app/{start_date}..{end_date}"
-params = {"base": base_currency}
-if symbols:
-    params["symbols"] = ",".join(symbols)
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
 
+        # Print the base currency, date, and a sample of the rates
+        print("Base currency:", data["base"])
+        print("Date:", data["date"])
+
+        rates = data.get("rates", {})
+        # Print just a few rates
+        print("Some rates:")
+        for currency, rate in list(rates.items())[:5]:
+            print(f"  {currency}: {rate}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
+
+
+if __name__ == "__main__":
+    test_frankfurter_api()
 
