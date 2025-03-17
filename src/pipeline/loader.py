@@ -9,10 +9,6 @@ class DataLoader:
         self.engine = create_engine(engine_url)
 
     def create_schema_if_not_exists(self, schema_sql_path):
-        """
-        Reads schema.sql and executes each statement.
-        Splits by ';' so each CREATE TABLE or DDL statement ends with a semicolon.
-        """
         self.logger.info(f"Ensuring schema with file: {schema_sql_path}")
         with open(schema_sql_path, "r", encoding="utf-8") as f:
             schema_sql = f.read()

@@ -6,17 +6,11 @@ class DataTransformer:
         self.logger = logging.getLogger(self.__class__.__name__)
 
     def clean_stock_data(self, df_stock):
-        """
-        Drop rows where essential columns are missing.
-        """
         required_cols = ["date", "ticker", "o", "h", "l", "c"]
         df_stock.dropna(subset=required_cols, inplace=True)
         return df_stock
 
     def clean_fx_data(self, df_fx):
-        """
-        Drop rows where essential currency columns are missing, remove duplicates.
-        """
         required_cols = ["date", "base_currency", "target_currency", "rate"]
         df_fx.dropna(subset=required_cols, inplace=True)
         df_fx.drop_duplicates(inplace=True)

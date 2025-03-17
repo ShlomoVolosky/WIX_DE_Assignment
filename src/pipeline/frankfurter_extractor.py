@@ -9,10 +9,6 @@ class FrankfurterExtractor:
         self.logger = logging.getLogger(self.__class__.__name__)
 
     def get_time_series(self, base_currency, start_date, end_date, symbols=None):
-        """
-        Queries the Frankfurter API for time series data from start_date..end_date,
-        returning a DataFrame of date, base_currency, target_currency, rate.
-        """
         url = f"{self.base_url}/{start_date}..{end_date}"
         params = {"base": base_currency}
         if symbols:

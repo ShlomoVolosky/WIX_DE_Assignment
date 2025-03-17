@@ -3,6 +3,7 @@ import yaml
 import os
 import pandas as pd
 from datetime import datetime
+from sqlalchemy import inspect, text
 from polygon_extractor import PolygonExtractor
 from frankfurter_extractor import FrankfurterExtractor
 from transformer import DataTransformer
@@ -91,6 +92,20 @@ def main_pipeline():
     # Load fact
     loader.load_fact_stock_prices(df_merged, target_currency=target_currency)
 
+    #logging.info("Pipeline completed.")
+
+    ##
+    with loader.engine.connect() as conn:
+        # Confirm row count
+        count = conn.execute(text("SELECT COUNT(*) FROM fact_stock_prices")).fetchone()[0]
+        print("DEBUG pipeline: fact_stock_prices count =", count)
+
+    db_path = loader.engine.url.database  # the raw file path part
+    abs_path = os.path.abspath(db_path)
+    size_bytes = os.path.getsize(abs_path) if os.path.exists(abs_path) else 0
+    print("DEBUG pipeline: Using DB at:", abs_path)
+    print("DEBUG pipeline: DB file size =", size_bytes, "bytes")
+    ##
     logging.info("Pipeline completed.")
 
 if __name__ == "__main__":
