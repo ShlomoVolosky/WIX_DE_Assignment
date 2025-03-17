@@ -3,10 +3,10 @@ import yaml
 import os
 import pandas as pd
 from datetime import datetime
-from .polygon_extractor import PolygonExtractor
-from .frankfurter_extractor import FrankfurterExtractor
-from .transformer import DataTransformer
-from .loader import DataLoader
+from polygon_extractor import PolygonExtractor
+from frankfurter_extractor import FrankfurterExtractor
+from transformer import DataTransformer
+from loader import DataLoader
 
 def main_pipeline():
     logging.basicConfig(level=logging.INFO,
