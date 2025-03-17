@@ -5,4 +5,6 @@ sqlalchemy
 streamlit
 apache-airflow
 pytest
-requests_mock
+requests-mock
+boto3
+botocore
