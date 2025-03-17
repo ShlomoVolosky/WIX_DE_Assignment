@@ -6,29 +6,43 @@ class DataTransformer:
         self.logger = logging.getLogger(self.__class__.__name__)
 
     def clean_stock_data(self, df_stock):
-        df_stock.dropna(subset=["date", "ticker", "o", "h", "l", "c"], inplace=True)
+        """
+        Drop rows where essential columns are missing.
+        """
+        required_cols = ["date", "ticker", "o", "h", "l", "c"]
+        df_stock.dropna(subset=required_cols, inplace=True)
         return df_stock
 
     def clean_fx_data(self, df_fx):
-        df_fx.dropna(subset=["date", "base_currency", "target_currency", "rate"], inplace=True)
+        """
+        Drop rows where essential currency columns are missing, remove duplicates.
+        """
+        required_cols = ["date", "base_currency", "target_currency", "rate"]
+        df_fx.dropna(subset=required_cols, inplace=True)
         df_fx.drop_duplicates(inplace=True)
         return df_fx
 
     def convert_prices(self, df_stock, df_fx, target_currency):
+        """
+        Convert stock prices from USD to target_currency using the Frankfurter rates.
+        """
         self.logger.info(f"Converting from USD to {target_currency}")
-        # Filter relevant FX
+
+        # Filter relevant FX rows
         relevant_fx = df_fx[
             (df_fx["base_currency"] == "USD") &
             (df_fx["target_currency"] == target_currency)
         ].copy()
 
+        # Merge on date
         merged = pd.merge(df_stock, relevant_fx[["date", "rate"]], on="date", how="left")
-        # create converted columns
+
+        # Create new columns
         merged["converted_open"] = merged["o"] * merged["rate"]
         merged["converted_close"] = merged["c"] * merged["rate"]
         merged["converted_high"] = merged["h"] * merged["rate"]
         merged["converted_low"] = merged["l"] * merged["rate"]
 
-        # fill missing fx rate with 1.0
-        merged["rate"].fillna(1.0, inplace=True)
+        # Fill any missing rate with 1.0
+        merged["rate"] = merged["rate"].fillna(1.0)
         return merged

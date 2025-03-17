@@ -1,1 +1,3 @@
-# Usually .env is added here, but for the assignment sake, I will not include it
+.env
+__pycache__/
+mydb.db
